@@ -53,7 +53,7 @@ export default function Projects() {
   return (
     <Layout
       title="Projects"
-      description="Projects and experiments by Venkatesh Balakrishnan — AI agents, context engineering, and engineering tooling.">
+      description="Projects and experiments by Venkatesh Babu Nattamai Balakrishnan — AI agents, context engineering, and engineering tooling.">
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.pageHeader}>

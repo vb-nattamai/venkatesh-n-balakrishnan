@@ -3,7 +3,7 @@ slug: evaluation-missing-layer-ai-developer-tooling
 title: Evaluation Is the Missing Layer in AI Developer Tooling
 authors: [venkatesh]
 tags: [evaluation, ai-agents, engineering-discipline, software-engineering]
-date: 2025-01-20
+date: 2026-03-25
 ---
 
 The AI developer tooling ecosystem has a measurement problem. Teams generate code with AI tools, review it (sometimes), ship it, and have no reliable signal about whether the AI-generated portions are better or worse than hand-written equivalents, more or less likely to introduce bugs, or trending up or down in quality over time.

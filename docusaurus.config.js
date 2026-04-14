@@ -3,7 +3,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Venkatesh Balakrishnan',
+  title: 'Venkatesh Babu Nattamai Balakrishnan',
   tagline: 'Director of Software Engineering · AI-Driven Delivery · Agentic SDLC',
   favicon: 'img/favicon.ico',
 
@@ -47,6 +47,7 @@ const config = {
           blogTitle: 'Writing',
           blogDescription: 'Essays and notes on software engineering, AI systems, and engineering leadership.',
           postsPerPage: 10,
+          blogSidebarCount: 0,
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
@@ -66,14 +67,14 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       metadata: [
-        {name: 'description', content: 'Venkatesh Balakrishnan — Director of Software Engineering focused on AI-driven software delivery, agentic SDLC, and high-performance engineering organizations.'},
+        {name: 'description', content: 'Venkatesh Babu Nattamai Balakrishnan — Director of Software Engineering focused on AI-driven software delivery, agentic SDLC, and high-performance engineering organizations.'},
         {name: 'keywords', content: 'software engineering, AI, agentic SDLC, platform engineering, engineering leadership, context engineering'},
       ],
       colorMode: {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'Venkatesh Balakrishnan',
+        title: 'Venkatesh Babu Nattamai Balakrishnan',
         hideOnScroll: false,
         items: [
           {to: '/blog', label: 'Writing', position: 'left'},
@@ -113,12 +114,12 @@ const config = {
               },
               {
                 label: 'LinkedIn',
-                href: 'https://linkedin.com/in/venkateshbalakrishnan',
+                href: 'https://www.linkedin.com/in/venkatesh-n-balakrishnan/',
               },
             ],
           },
         ],
-        copyright: `© ${new Date().getFullYear()} Venkatesh Balakrishnan · Director of Software Engineering`,
+        copyright: `© ${new Date().getFullYear()} Venkatesh Babu Nattamai Balakrishnan · Director of Software Engineering`,
       },
       prism: {
         theme: prismThemes.github,

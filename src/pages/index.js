@@ -63,13 +63,13 @@ export default function Home() {
   return (
     <Layout
       title="Home"
-      description="Venkatesh Balakrishnan — Director of Software Engineering focused on AI-driven software delivery, agentic SDLC, and high-performance engineering organizations.">
+      description="Venkatesh Babu Nattamai Balakrishnan — Director of Software Engineering focused on AI-driven software delivery, agentic SDLC, and high-performance engineering organizations.">
       <main>
         {/* Hero */}
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <p className={styles.heroEyebrow}>Director of Software Engineering</p>
-            <h1 className={styles.heroTitle}>Venkatesh Balakrishnan</h1>
+            <h1 className={styles.heroTitle}>Venkatesh Babu Nattamai Balakrishnan</h1>
             <p className={styles.heroSubtitle}>
               Building AI-driven software delivery systems. Focused on agentic SDLC, context
               engineering, evaluation, platform infrastructure, and high-performance engineering

@@ -6,7 +6,7 @@ export default function About() {
   return (
     <Layout
       title="About"
-      description="About Venkatesh Balakrishnan — Director of Software Engineering focused on AI-driven delivery, agentic SDLC, and engineering organization design.">
+      description="About Venkatesh Babu Nattamai Balakrishnan — Director of Software Engineering focused on AI-driven delivery, agentic SDLC, and engineering organization design.">
       <main className={styles.main}>
         <div className={styles.container}>
           <h1 className={styles.pageTitle}>About</h1>
@@ -110,6 +110,13 @@ export default function About() {
                 target="_blank"
                 rel="noopener noreferrer">
                 GitHub
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://www.linkedin.com/in/venkatesh-n-balakrishnan/"
+                target="_blank"
+                rel="noopener noreferrer">
+                LinkedIn
               </a>
               .
             </p>

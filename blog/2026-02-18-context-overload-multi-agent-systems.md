@@ -3,7 +3,7 @@ slug: context-overload-multi-agent-systems
 title: Context Overload in Multi-Agent Systems
 authors: [venkatesh]
 tags: [ai-agents, context-engineering, multi-agent, distributed-systems]
-date: 2024-11-02
+date: 2026-02-18
 ---
 
 There's a failure mode that shows up consistently when you build multi-agent systems: the more context you give agents, the worse the outputs get — past a certain threshold. This is counterintuitive if you think of context as purely additive. It isn't.

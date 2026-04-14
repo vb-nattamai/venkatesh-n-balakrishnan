@@ -3,7 +3,7 @@ slug: why-ai-agents-fail-real-codebases
 title: Why AI Agents Fail on Real Codebases
 authors: [venkatesh]
 tags: [ai-agents, context-engineering, software-engineering]
-date: 2024-09-15
+date: 2026-01-12
 ---
 
 AI agent demos are almost always run against clean, small, well-structured repositories. The agent opens a few files, reads a README, makes a change, and the change is right. It's impressive. Then you point the same agent at a real production codebase and the quality drops off a cliff.
