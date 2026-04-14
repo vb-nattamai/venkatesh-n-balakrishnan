@@ -8,7 +8,7 @@ const focusAreas = [
   {
     title: 'Agentic SDLC',
     description:
-      'Designing software delivery systems where AI agents participate as first-class contributors — from spec to deploy. Building the scaffolding, evaluation harnesses, and feedback loops that make this reliable.',
+      'Software delivery where AI agents participate at each phase — specification, implementation, review, and validation. Building the scaffolding, evaluation harnesses, and feedback loops that make this reliable.',
   },
   {
     title: 'Context Engineering',
@@ -16,14 +16,19 @@ const focusAreas = [
       'Treating context as an engineering problem, not a prompt problem. How you structure, scope, and deliver information to agents determines output quality more than model choice.',
   },
   {
-    title: 'Platform & Distributed Systems',
+    title: 'Evaluation-First AI Systems',
     description:
-      'Internal developer platforms, service mesh, reliability engineering, and the infrastructure layer underneath AI tooling. Systems that don\'t break when the unexpected happens.',
+      'Designing testable, repeatable evaluation harnesses for AI outputs. The discipline of knowing whether something works before you ship it — applied to code generation, agent pipelines, and developer tooling.',
+  },
+  {
+    title: 'Platform Engineering & Distributed Systems',
+    description:
+      'Internal developer platforms, service reliability, and the infrastructure underneath AI tooling. Scalable systems that stay correct under real-world failure conditions.',
   },
   {
     title: 'Engineering Leadership',
     description:
-      'Building high-output engineering organizations. Hiring, org design, technical strategy, and the craft of managing senior engineers and distributed teams.',
+      'Building high-output engineering organizations. Org design, technical strategy, hiring, and the craft of developing senior engineers and distributed teams.',
   },
 ];
 
@@ -58,36 +63,53 @@ const writingPreviews = [
   },
 ];
 
+const proofPoints = [
+  'Director of Software Engineering leading multi-team engineering organizations',
+  'Writing about agentic SDLC, context engineering, and AI developer systems',
+  'Building AgentReady — context-aware scaffolding and evaluation for AI agents',
+  'Working across engineering leadership, platform thinking, and practical AI adoption',
+];
+
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
       title="Home"
-      description="Venkatesh Babu Nattamai Balakrishnan — Director of Software Engineering focused on AI-driven software delivery, agentic SDLC, and high-performance engineering organizations.">
+      description="Venkatesh Balakrishnan — Director of Software Engineering focused on AI-driven software delivery, agentic SDLC, and high-performance engineering organizations.">
       <main>
         {/* Hero */}
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <p className={styles.heroEyebrow}>Director of Software Engineering</p>
-            <h1 className={styles.heroTitle}>Venkatesh Babu Nattamai Balakrishnan</h1>
+            <h1 className={styles.heroTitle}>Venkatesh Balakrishnan</h1>
             <p className={styles.heroSubtitle}>
-              Building AI-driven software delivery systems. Focused on agentic SDLC, context
-              engineering, evaluation, platform infrastructure, and high-performance engineering
-              organizations.
+              Building AI-driven software delivery systems with a focus on agentic SDLC, context
+              engineering, evaluation, distributed systems, and engineering leadership.
             </p>
             <div className={styles.heroCtas}>
-              <Link className="button button--primary button--lg" to="/projects">
-                Projects
-              </Link>
-              <Link className="button button--secondary button--lg" to="/blog">
+              <Link className="button button--primary button--lg" to="/blog">
                 Writing
               </Link>
+              <Link className="button button--secondary button--lg" to="/projects">
+                Projects
+              </Link>
               <Link
-                className="button button--secondary button--lg"
+                className={`button button--outline button--lg ${styles.ctaTertiary}`}
                 href="https://github.com/vb-nattamai">
                 GitHub
               </Link>
             </div>
+          </div>
+        </section>
+
+        {/* Proof */}
+        <section className={styles.proof}>
+          <div className={styles.container}>
+            <ul className={styles.proofList}>
+              {proofPoints.map((point) => (
+                <li key={point} className={styles.proofItem}>{point}</li>
+              ))}
+            </ul>
           </div>
         </section>
 

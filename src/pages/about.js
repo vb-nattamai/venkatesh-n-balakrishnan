@@ -13,7 +13,11 @@ export default function About() {
 
           <section className={styles.section}>
             <p className={styles.lead}>
-              I'm a Director of Software Engineering with a background in building systems that help
+              I'm a Director of Software Engineering at{' '}
+              <a href="https://www.diconium.com" target="_blank" rel="noopener noreferrer">
+                diconium
+              </a>
+              , based in Berlin. I have over 13 years of experience building systems that help
               engineering organizations move faster and more reliably. My current focus is the
               intersection of AI and software delivery — specifically, how to make AI-assisted
               development something you can actually depend on in production.

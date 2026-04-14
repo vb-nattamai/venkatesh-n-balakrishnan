@@ -74,7 +74,7 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'Venkatesh Babu Nattamai Balakrishnan',
+        title: 'Venkatesh Balakrishnan',
         hideOnScroll: false,
         items: [
           {to: '/blog', label: 'Writing', position: 'left'},

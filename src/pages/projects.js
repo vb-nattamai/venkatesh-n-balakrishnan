@@ -16,6 +16,27 @@ const featuredProjects = [
     href: 'https://github.com/vb-nattamai/agent-ready',
     status: 'Active',
   },
+  {
+    name: 'LLM SDLC Workflow',
+    tagline: 'Discovery → Architecture → Engineering → Review, with testing at each stage',
+    description: [
+      'An exploration of what it looks like when AI becomes a genuine participant in software delivery — not just a code assistant, but an agent embedded across every phase of the development lifecycle.',
+      'The workflow covers discovery, architecture, engineering, and review, with quality gates and testing at each stage. Built in Python using the Claude Agent SDK.',
+    ],
+    tags: ['Agentic SDLC', 'Claude Agent SDK', 'Python', 'LLM'],
+    href: 'https://github.com/vb-nattamai/llm-sdlc-workflow',
+    status: 'Active',
+  },
+  {
+    name: 'Agentic SDLC',
+    tagline: 'Fully dynamic LLM-orchestrated software development pipeline',
+    description: [
+      'Architecture-driven agent spawning with wave-based parallel execution and peer artifact injection. A dynamic pipeline where agents are spawned based on the architecture of the system being built, execute in coordinated waves, and inject artifacts into each other\'s context.',
+    ],
+    tags: ['Agent Orchestration', 'Parallel Execution', 'Python'],
+    href: 'https://github.com/vb-nattamai/agentic-sdlc',
+    status: 'Active',
+  },
 ];
 
 const experimentPlaceholders = [
@@ -29,12 +50,6 @@ const experimentPlaceholders = [
     name: 'Context Window Audit Tool',
     description:
       'A diagnostic tool for inspecting what actually lands in an LLM\'s context window when an agent fires. Useful for debugging unexplained agent failures.',
-    status: 'Planned',
-  },
-  {
-    name: 'Agentic SDLC Reference Implementation',
-    description:
-      'A small but complete reference implementation of a software delivery pipeline with AI agent hooks at each phase: spec, implementation, review, and validation.',
     status: 'Planned',
   },
 ];
