@@ -1,0 +1,27 @@
+ai-agents:
+  label: AI Agents
+  permalink: /ai-agents
+
+context-engineering:
+  label: Context Engineering
+  permalink: /context-engineering
+
+software-engineering:
+  label: Software Engineering
+  permalink: /software-engineering
+
+multi-agent:
+  label: Multi-Agent Systems
+  permalink: /multi-agent
+
+distributed-systems:
+  label: Distributed Systems
+  permalink: /distributed-systems
+
+evaluation:
+  label: Evaluation
+  permalink: /evaluation
+
+engineering-discipline:
+  label: Engineering Discipline
+  permalink: /engineering-discipline
