@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog</id>
+    <title>Venkatesh Babu Nattamai Balakrishnan Blog</title>
+    <updated>2026-03-25T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog"/>
+    <subtitle>Venkatesh Babu Nattamai Balakrishnan Blog</subtitle>
+    <icon>https://vb-nattamai.github.io/venkatesh-n-balakrishnan/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Evaluation Is the Missing Layer in AI Developer Tooling]]></title>
+        <id>https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling</id>
+        <link href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling"/>
+        <updated>2026-03-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The AI developer tooling ecosystem has a measurement problem. Teams generate code with AI tools, review it (sometimes), ship it, and have no reliable signal about whether the AI-generated portions are better or worse than hand-written equivalents, more or less likely to introduce bugs, or trending up or down in quality over time.]]></summary>
+        <content type="html"><![CDATA[<p>The AI developer tooling ecosystem has a measurement problem. Teams generate code with AI tools, review it (sometimes), ship it, and have no reliable signal about whether the AI-generated portions are better or worse than hand-written equivalents, more or less likely to introduce bugs, or trending up or down in quality over time.</p>
+<p>This isn't ignorance. It's a deliberate deferred decision. Evaluation is hard to define, time-consuming to build, and doesn't produce visible output. Generation is fast and produces visible output. Teams optimize for what they can see.</p>
+<p>The cost of this shows up later.</p>
+<!-- -->
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-evaluation-means-here">What "evaluation" means here<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling#what-evaluation-means-here" class="hash-link" aria-label="Direct link to What &quot;evaluation&quot; means here" title="Direct link to What &quot;evaluation&quot; means here" translate="no">​</a></h2>
+<p>I'm not talking about whether the code works — whether it passes tests, compiles, or runs. Those signals exist and teams use them.</p>
+<p>I'm talking about a higher-order question: does the AI system that generated this code work reliably? Not "did the output work this time" but "does this tool produce correct outputs on this class of inputs at the rate I need?"</p>
+<p>This distinction matters because AI systems fail in distributions, not in isolated instances. A code generation tool might work correctly 90% of the time on obvious tasks and 40% of the time on the edge cases that actually require careful handling. Without an evaluation framework, you don't know which class of task you're deploying it on.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-the-tooling-ecosystem-skips-it">Why the tooling ecosystem skips it<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling#why-the-tooling-ecosystem-skips-it" class="hash-link" aria-label="Direct link to Why the tooling ecosystem skips it" title="Direct link to Why the tooling ecosystem skips it" translate="no">​</a></h2>
+<p><strong>Demo-ability bias.</strong> You can demo a code generation tool in five minutes. You cannot demo an evaluation framework in five minutes. The demo is what gets funded, so the demo features get built.</p>
+<p><strong>Ground truth is hard.</strong> Evaluation requires a definition of "correct." For code generation, "correct" depends on the task, the codebase, the requirements, and sometimes the preferences of the reviewer. There's no universal rubric. Building a domain-specific one takes real work.</p>
+<p><strong>Latency to signal.</strong> The failures that evaluation would catch often don't show up immediately. They show up as subtle bugs, security issues, or technical debt that accumulates over months. The connection between "we didn't build eval" and "we now have a codebase full of subtly broken AI-generated code" is hard to trace.</p>
+<p><strong>The false floor.</strong> AI-generated code often looks right. It's syntactically correct, stylistically reasonable, and functionally plausible at a glance. The review signal is "this looks fine," which suppresses the demand for deeper evaluation infrastructure.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-breaks-without-it">What breaks without it<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling#what-breaks-without-it" class="hash-link" aria-label="Direct link to What breaks without it" title="Direct link to What breaks without it" translate="no">​</a></h2>
+<p><strong>Invisible regression.</strong> You update the model, or the prompt, or the context injection strategy. Quality changes in ways you can't detect because you have no baseline. You only find out months later when bugs start accumulating.</p>
+<p><strong>No improvement loop.</strong> Without a ground truth to measure against, you can't do systematic improvement. You're guessing about what changes help. Teams end up in perpetual prompt tuning — a local optimization process with no convergence guarantee.</p>
+<p><strong>Cascading failures in pipelines.</strong> In a multi-step AI pipeline, a subtle error in step two doesn't necessarily surface until step seven. If you're not running evaluation at each step, you don't know where the failure originated. Debugging becomes forensic archaeology.</p>
+<p><strong>Trust calibration failure.</strong> Engineers over-rely or under-rely on AI tools because they have no objective signal about when the tool is reliable. Over-reliance produces bugs. Under-reliance produces wasted capability. Neither is efficient.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-an-evaluation-layer-looks-like">What an evaluation layer looks like<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling#what-an-evaluation-layer-looks-like" class="hash-link" aria-label="Direct link to What an evaluation layer looks like" title="Direct link to What an evaluation layer looks like" translate="no">​</a></h2>
+<p>It's not one thing. It's a series of properties:</p>
+<p><strong>A defined task taxonomy.</strong> What are the distinct types of tasks your AI tooling handles? Code generation for new features is different from refactoring, which is different from test generation, which is different from documentation. Each needs its own evaluation criteria.</p>
+<p><strong>A curated test dataset per task type.</strong> For each task type: a set of representative inputs with defined correct outputs. Not exhaustive — just representative enough to give statistically meaningful signal. Fifty examples is often enough to start.</p>
+<p><strong>Automated scoring against the dataset.</strong> A script that runs your AI system against the dataset and computes a score. The score doesn't have to be perfect — it has to be consistent and directionally meaningful.</p>
+<p><strong>CI integration.</strong> The evaluation runs before changes to the AI system go to production. A regression blocks the change. This is the same discipline as automated testing; the implementation details are different, but the principle is identical.</p>
+<p><strong>Failure case collection.</strong> Every time an AI output fails in production — a user rejects it, a reviewer marks it wrong, a bug is traced back to it — that case gets added to the evaluation dataset. The dataset grows toward the actual failure distribution.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-minimum-viable-version">The minimum viable version<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/evaluation-missing-layer-ai-developer-tooling#the-minimum-viable-version" class="hash-link" aria-label="Direct link to The minimum viable version" title="Direct link to The minimum viable version" translate="no">​</a></h2>
+<p>If this sounds like a lot, the minimum useful version is:</p>
+<ol>
+<li class="">Pick one high-frequency task your AI tooling handles</li>
+<li class="">Collect 30 examples of inputs + correct outputs for that task</li>
+<li class="">Write a script that runs your system against those 30 examples and reports pass/fail per example</li>
+<li class="">Run the script before every change to your AI system configuration</li>
+</ol>
+<p>That's it. That's the beginning of an evaluation layer. It takes a day to build. It will catch things you would otherwise miss.</p>
+<p>The teams building production AI developer tooling that actually holds up are the ones who invested in this infrastructure early. It's not glamorous engineering, but it's the foundation that everything else depends on.</p>]]></content>
+        <author>
+            <name>Venkatesh Babu Nattamai Balakrishnan</name>
+            <uri>https://github.com/vb-nattamai</uri>
+        </author>
+        <category label="Evaluation" term="Evaluation"/>
+        <category label="AI Agents" term="AI Agents"/>
+        <category label="Engineering Discipline" term="Engineering Discipline"/>
+        <category label="Software Engineering" term="Software Engineering"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Context Overload in Multi-Agent Systems]]></title>
+        <id>https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems</id>
+        <link href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems"/>
+        <updated>2026-02-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[There's a failure mode that shows up consistently when you build multi-agent systems: the more context you give agents, the worse the outputs get — past a certain threshold. This is counterintuitive if you think of context as purely additive. It isn't.]]></summary>
+        <content type="html"><![CDATA[<p>There's a failure mode that shows up consistently when you build multi-agent systems: the more context you give agents, the worse the outputs get — past a certain threshold. This is counterintuitive if you think of context as purely additive. It isn't.</p>
+<p>Understanding why requires thinking about context the same way you'd think about a bandwidth-constrained channel in a distributed system: it has capacity, and when you push past capacity, you don't just get slower — you get degraded fidelity.</p>
+<!-- -->
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-multi-agent-context-works">How multi-agent context works<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems#how-multi-agent-context-works" class="hash-link" aria-label="Direct link to How multi-agent context works" title="Direct link to How multi-agent context works" translate="no">​</a></h2>
+<p>In a simple agent setup, you have one agent, one context window, one task. The context contains the task description, relevant background, and whatever tools or documents the agent has access to. Manageable.</p>
+<p>In a multi-agent setup, you have orchestrators, subagents, tool call results, and intermediate outputs flowing between them. The context at each node in this graph is the accumulation of everything upstream.</p>
+<p>This creates two distinct problems:</p>
+<p><strong>Vertical accumulation.</strong> An orchestrator fires a subagent. The subagent's output (possibly long) gets returned into the orchestrator's context. The orchestrator fires another subagent with the updated context. This continues until the orchestrator's context window is approaching capacity, at which point earlier context is either dropped (losing signal) or retained (diluting signal-to-noise).</p>
+<p><strong>Horizontal noise.</strong> Subagents working in parallel on different aspects of a task produce outputs that weren't designed to be coherent with each other. When those outputs are recombined into a single context for the next stage, the resulting context contains overlapping, sometimes contradictory information about the same domain.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-more-context-degrades-quality">Why more context degrades quality<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems#why-more-context-degrades-quality" class="hash-link" aria-label="Direct link to Why more context degrades quality" title="Direct link to Why more context degrades quality" translate="no">​</a></h2>
+<p>This might seem paradoxical — shouldn't more information help? Not necessarily, and here's why.</p>
+<p>Language models process their entire context window before generating each token. The attention mechanism means tokens near the beginning and end of the context window receive more weight than tokens in the middle. Long context windows have a well-documented "lost in the middle" problem: information buried in the middle of a long context is less reliably retrieved than the same information at the extremes.</p>
+<p>More fundamentally: context is not a neutral carrier. When you put contradictory or redundant information into a context window, you're not just adding tokens — you're creating uncertainty. The model has to resolve contradictions probabilistically, and it often doesn't do so correctly.</p>
+<p>In multi-agent systems, this compounds quickly. Each agent adds to the noise. Each handoff introduces another opportunity for context pollution. By stage four or five of a complex pipeline, the context your final agent is working with may be technically enormous but functionally incoherent.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-this-looks-like-in-practice">What this looks like in practice<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems#what-this-looks-like-in-practice" class="hash-link" aria-label="Direct link to What this looks like in practice" title="Direct link to What this looks like in practice" translate="no">​</a></h2>
+<p>Signs that your multi-agent pipeline is suffering from context overload:</p>
+<ul>
+<li class="">Outputs get less specific and more hedged as the pipeline progresses</li>
+<li class="">The final agent's output contradicts earlier outputs in the same run without resolution</li>
+<li class="">Intermediate agents start paraphrasing earlier context rather than extending it</li>
+<li class="">You add more agents to improve quality and quality gets worse</li>
+</ul>
+<p>The last one is particularly common and particularly frustrating. The instinct when an agent pipeline produces poor output is to add more context, more agents, more review steps. This can make the problem worse.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="structural-fixes">Structural fixes<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems#structural-fixes" class="hash-link" aria-label="Direct link to Structural fixes" title="Direct link to Structural fixes" translate="no">​</a></h2>
+<p>The solution isn't to limit what agents can do — it's to be deliberate about what flows between them.</p>
+<p><strong>Design context boundaries explicitly.</strong> Each agent in a pipeline should receive only the context it needs to complete its specific task. Not the full upstream context — the minimal distillation of upstream context that's relevant to this agent's responsibility. This is harder to implement but produces dramatically better results.</p>
+<p><strong>Use structured outputs at handoff points.</strong> When an agent returns a result that feeds into another agent, the result should be structured rather than natural language wherever possible. A structured output can be parsed, validated, and compact. A verbose natural language output carries noise.</p>
+<p><strong>Compress aggressively between stages.</strong> The orchestrator's job at each stage isn't just to receive and re-inject outputs — it's to compress. Take the outputs of the previous stage, extract the relevant signal, discard the noise, and present only the signal to the next stage.</p>
+<p><strong>Separate storage from context.</strong> Not everything needs to be in the context window. Intermediate results that might be needed by future stages but aren't needed right now can be written to storage and retrieved when relevant. This is the equivalent of working memory versus long-term memory in human cognition.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-deeper-issue">The deeper issue<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/context-overload-multi-agent-systems#the-deeper-issue" class="hash-link" aria-label="Direct link to The deeper issue" title="Direct link to The deeper issue" translate="no">​</a></h2>
+<p>Context overload in multi-agent systems is a symptom of treating context as cheap. It isn't. Every token in a context window has a cost — not just a financial cost, but a quality cost. When you design a multi-agent system, you're implicitly making decisions about information architecture: what gets passed where, in what form, and at what granularity.</p>
+<p>Teams that do this deliberately produce multi-agent systems that work. Teams that don't iterate toward systems that work in demos and fail under real load.</p>
+<p>The engineering discipline for this doesn't exist yet in any codified form. It's one of the genuinely interesting problems in the space.</p>]]></content>
+        <author>
+            <name>Venkatesh Babu Nattamai Balakrishnan</name>
+            <uri>https://github.com/vb-nattamai</uri>
+        </author>
+        <category label="AI Agents" term="AI Agents"/>
+        <category label="Context Engineering" term="Context Engineering"/>
+        <category label="Multi-Agent Systems" term="Multi-Agent Systems"/>
+        <category label="Distributed Systems" term="Distributed Systems"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why AI Agents Fail on Real Codebases]]></title>
+        <id>https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/why-ai-agents-fail-real-codebases</id>
+        <link href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/why-ai-agents-fail-real-codebases"/>
+        <updated>2026-01-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[AI agent demos are almost always run against clean, small, well-structured repositories. The agent opens a few files, reads a README, makes a change, and the change is right. It's impressive. Then you point the same agent at a real production codebase and the quality drops off a cliff.]]></summary>
+        <content type="html"><![CDATA[<p>AI agent demos are almost always run against clean, small, well-structured repositories. The agent opens a few files, reads a README, makes a change, and the change is right. It's impressive. Then you point the same agent at a real production codebase and the quality drops off a cliff.</p>
+<p>This isn't a coincidence, and it isn't a model capability problem. The failure modes are structural.</p>
+<!-- -->
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-gap-between-demos-and-reality">The gap between demos and reality<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/why-ai-agents-fail-real-codebases#the-gap-between-demos-and-reality" class="hash-link" aria-label="Direct link to The gap between demos and reality" title="Direct link to The gap between demos and reality" translate="no">​</a></h2>
+<p>Real codebases have properties that demo codebases don't:</p>
+<p><strong>Accumulated ambiguity.</strong> Real code carries years of decisions. Functions named after their third implementation. Config keys that no longer match their purpose. Tests that pass but don't test the thing they're named after. An agent working from file contents alone has no way to distinguish the meaningful name from the misleading one.</p>
+<p><strong>Implicit conventions.</strong> Every non-trivial codebase has conventions that aren't written down — how errors are handled, how services are named, which patterns are approved versus which ones exist because they were never cleaned up. These conventions exist in the heads of the people who wrote the code. Agents don't have heads.</p>
+<p><strong>Deep dependency graphs.</strong> A change to a function signature might have implications in twelve other files. Following those implications requires understanding the dependency structure of the project, not just reading the files that are immediately visible.</p>
+<p><strong>Scale.</strong> A production codebase might have 500,000 lines of code across 3,000 files. No context window holds that. The question isn't "can the agent read the code" — it's "how does the agent know which code to read?"</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-context-injection-doesnt-fix-this">Why context injection doesn't fix this<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/why-ai-agents-fail-real-codebases#why-context-injection-doesnt-fix-this" class="hash-link" aria-label="Direct link to Why context injection doesn't fix this" title="Direct link to Why context injection doesn't fix this" translate="no">​</a></h2>
+<p>The common quick fix is to inject more context. Give the agent a longer system prompt. Embed the README. Pass in some relevant files.</p>
+<p>This helps at the margins, but it doesn't address the structural problem. More context isn't the same as the right context.</p>
+<p>When you inject context naively, a few things happen:</p>
+<p><strong>Signal dilution.</strong> The relevant signal gets buried in noise. An LLM processing a 100,000 token context window isn't giving equal attention to every token — relevant facts that appear in a noisy context are less likely to be used than the same facts in a focused context.</p>
+<p><strong>Contradiction amplification.</strong> Real codebases have inconsistencies. Stale comments, outdated docs, conflicting patterns in different modules. When you inject large chunks of context, you inject these contradictions. The agent has no reliable way to resolve them.</p>
+<p><strong>No structural understanding.</strong> A dump of file contents doesn't convey architecture. An agent reading ten service files in a microservices system doesn't know which one is upstream of which, which ones own which data, or which ones would be affected by a particular change. That information lives in the structure, not in any individual file.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-actually-needs-to-happen">What actually needs to happen<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/why-ai-agents-fail-real-codebases#what-actually-needs-to-happen" class="hash-link" aria-label="Direct link to What actually needs to happen" title="Direct link to What actually needs to happen" translate="no">​</a></h2>
+<p>The agents that work reliably on real codebases have one thing in common: they have structured representations of the codebase, not raw file dumps.</p>
+<p>This means things like:</p>
+<ul>
+<li class="">A map of the module structure and dependency graph</li>
+<li class="">Extracted interface contracts (what each module exposes and what it depends on)</li>
+<li class="">Identified conventions (naming patterns, error handling patterns, test patterns)</li>
+<li class="">Explicit pointers to the files relevant to a given task</li>
+</ul>
+<p>Building this representation is the actual engineering problem. It's not prompt engineering. It's static analysis, graph construction, and careful representation design — combined with evaluation to confirm the representation is accurate enough to be useful.</p>
+<p>Most current agent frameworks don't have this infrastructure. They give agents file system access and a search tool and call it done. For simple tasks on small codebases, this is fine. For complex tasks on real systems, it's why agents fail.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-optimistic-take">The optimistic take<a href="https://vb-nattamai.github.io/venkatesh-n-balakrishnan/blog/why-ai-agents-fail-real-codebases#the-optimistic-take" class="hash-link" aria-label="Direct link to The optimistic take" title="Direct link to The optimistic take" translate="no">​</a></h2>
+<p>None of this is unsolvable. The failure modes are well-defined, which means they can be engineered around. The interesting problems are:</p>
+<ul>
+<li class="">How do you extract a codebase into a representation that's useful to agents without losing fidelity?</li>
+<li class="">How do you scope context to a specific task without missing relevant information?</li>
+<li class="">How do you evaluate whether your context representation is good enough to enable the task?</li>
+</ul>
+<p>These are hard engineering problems, not fundamental limitations of the technology. They're just not the problems most of the ecosystem is focused on right now.</p>]]></content>
+        <author>
+            <name>Venkatesh Babu Nattamai Balakrishnan</name>
+            <uri>https://github.com/vb-nattamai</uri>
+        </author>
+        <category label="AI Agents" term="AI Agents"/>
+        <category label="Context Engineering" term="Context Engineering"/>
+        <category label="Software Engineering" term="Software Engineering"/>
+    </entry>
+</feed>

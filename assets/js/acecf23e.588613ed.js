@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkvenkatesh_personal_site=self.webpackChunkvenkatesh_personal_site||[]).push([["220"],{1912(e){e.exports=JSON.parse('{"blogBasePath":"/venkatesh-n-balakrishnan/blog","blogTitle":"Writing","authorsListPath":"/venkatesh-n-balakrishnan/blog/authors"}')}}]);
